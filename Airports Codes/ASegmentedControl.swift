@@ -16,6 +16,11 @@ class ASegmentedControl: UIControl {
     
     var selectedIndex: Int!
     
+    init() {
+        super.init(frame: CGRect())
+        setup()
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -28,11 +33,9 @@ class ASegmentedControl: UIControl {
     private func setup() {
         borderWidth = 1
         selectedIndex = 0
-        borderColor = .brown
+        borderColor = .gray
         backgroundColor = .clear
         buttonTitles = "Airports|Codes"
-        layer.cornerRadius = frame.height / 2
-        buttons[0].setTitleColor(selectorTextColor, for: .normal)
     }
     
     var borderWidth: CGFloat = 0 {
@@ -79,9 +82,11 @@ class ASegmentedControl: UIControl {
             let button = UIButton(type: .system)
             button.setTitle(title, for: .normal)
             button.setTitleColor(buttonTitleColor, for: .normal)
-            button.addTarget(self, action: #selector(self.buttonTapped(button:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(self.buttonTapped(button:)), for: .touchDown)
             buttons.append(button)
         }
+        
+        buttons[selectedIndex].setTitleColor(selectorTextColor, for: .normal)
         
         let selectorWidth = frame.width / CGFloat(buttons.count)
         selector = UIView(frame: CGRect(x: 0, y: 0, width: selectorWidth, height: frame.height))
@@ -114,6 +119,11 @@ class ASegmentedControl: UIControl {
                 butt.setTitleColor(selectorTextColor, for: .normal)
             }
         }
+    }
+    
+    override func draw(_ rect: CGRect) {
+        layer.cornerRadius = frame.height / 2
+        updateView()
     }
     
 }

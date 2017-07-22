@@ -93,8 +93,10 @@ class ASegmentedControl: UIControl {
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
-        stackView.frame = bounds
         addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[sv]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["sv": stackView]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[sv]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["sv": stackView]))
     }
     
     @objc private func buttonTapped(button: UIButton) {

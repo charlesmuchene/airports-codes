@@ -8,8 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C6B9A54B1F23C68900658D6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B9A54A1F23C68900658D6C /* AppDelegate.swift */; };
-		C6B9A54D1F23C68900658D6C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B9A54C1F23C68900658D6C /* ViewController.swift */; };
-		C6B9A5501F23C68900658D6C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6B9A54E1F23C68900658D6C /* Main.storyboard */; };
+		C6B9A54D1F23C68900658D6C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B9A54C1F23C68900658D6C /* MainViewController.swift */; };
 		C6B9A5521F23C68900658D6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6B9A5511F23C68900658D6C /* Assets.xcassets */; };
 		C6B9A5551F23C68900658D6C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6B9A5531F23C68900658D6C /* LaunchScreen.storyboard */; };
 		C6B9A5601F23C68900658D6C /* Airports_CodesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B9A55F1F23C68900658D6C /* Airports_CodesTests.swift */; };
@@ -28,8 +27,7 @@
 /* Begin PBXFileReference section */
 		C6B9A5471F23C68900658D6C /* Airports Codes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Airports Codes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6B9A54A1F23C68900658D6C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C6B9A54C1F23C68900658D6C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		C6B9A54F1F23C68900658D6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C6B9A54C1F23C68900658D6C /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C6B9A5511F23C68900658D6C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6B9A5541F23C68900658D6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C6B9A5561F23C68900658D6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -78,8 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				C6B9A54A1F23C68900658D6C /* AppDelegate.swift */,
-				C6B9A54C1F23C68900658D6C /* ViewController.swift */,
-				C6B9A54E1F23C68900658D6C /* Main.storyboard */,
+				C6B9A54C1F23C68900658D6C /* MainViewController.swift */,
 				C6B9A5511F23C68900658D6C /* Assets.xcassets */,
 				C6B9A5531F23C68900658D6C /* LaunchScreen.storyboard */,
 				C6B9A5561F23C68900658D6C /* Info.plist */,
@@ -183,7 +180,6 @@
 			files = (
 				C6B9A5551F23C68900658D6C /* LaunchScreen.storyboard in Resources */,
 				C6B9A5521F23C68900658D6C /* Assets.xcassets in Resources */,
-				C6B9A5501F23C68900658D6C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,7 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6B9A54D1F23C68900658D6C /* ViewController.swift in Sources */,
+				C6B9A54D1F23C68900658D6C /* MainViewController.swift in Sources */,
 				C6B9A54B1F23C68900658D6C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -225,14 +221,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C6B9A54E1F23C68900658D6C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C6B9A54F1F23C68900658D6C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		C6B9A5531F23C68900658D6C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -343,8 +331,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = HZYZV5YA5F;
 				INFOPLIST_FILE = "Airports Codes/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.senseidevs.Airports-Codes";
+				PRODUCT_BUNDLE_IDENTIFIER = com.senseidevs.airportscodes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -356,8 +345,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = HZYZV5YA5F;
 				INFOPLIST_FILE = "Airports Codes/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.senseidevs.Airports-Codes";
+				PRODUCT_BUNDLE_IDENTIFIER = com.senseidevs.airportscodes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

@@ -53,7 +53,7 @@ class MainViewController: UIViewController {
         headerStackView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-margin-[hsv]-margin-|", options: NSLayoutFormatOptions(), metrics: ["margin": margin], views: ["hsv": headerStackView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-navbarHeightWithMargin-[hsv]", options: NSLayoutFormatOptions(), metrics: ["navbarHeightWithMargin": navBarHeight + margin], views: ["hsv": headerStackView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-navbarHeightWithMargin-[hsv(<=96)]", options: NSLayoutFormatOptions(), metrics: ["navbarHeightWithMargin": navBarHeight + margin], views: ["hsv": headerStackView]))
         
         
         airportView = AirportViewContainer()
@@ -65,6 +65,7 @@ class MainViewController: UIViewController {
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[avc]-16-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["avc": airportView]))
         
         codesView = CodesViewContainer()
+        codesView.alpha = 0
         view.addSubview(codesView)
         codesView.translatesAutoresizingMaskIntoConstraints = false
         

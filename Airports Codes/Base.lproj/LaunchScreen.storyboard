@@ -42,6 +42,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="airports" width="256" height="257"/>
+        <image name="airports" width="128" height="128"/>
     </resources>
 </document>

@@ -17,7 +17,7 @@ class ContainerView: UIView {
         }
     }
     
-    var shadowOffset: CGSize = CGSize(width: 0, height: 0) {
+    var shadowOffset: CGSize = .zero {
         didSet {
             updateView()
         }
@@ -55,7 +55,7 @@ class ContainerView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        updateView()
+        backgroundColor = .clear
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -64,25 +64,24 @@ class ContainerView: UIView {
     
     private func updateView() {
         
-        backgroundColor = .clear
-        
-        layer.shadowColor = shadowColor.cgColor
-        layer.shadowOffset = shadowOffset
-        layer.shadowOpacity = shadowOpacity
-        layer.shadowRadius = shadowRadius
-        
-        let cornerView = UIView()
-        cornerView.backgroundColor = .white
-        cornerView.frame = bounds
-        cornerView.layer.cornerRadius = cornerRadius
-        cornerView.layer.masksToBounds = true
-        addSubview(cornerView)
+        let shadowLayer = CAShapeLayer()
+        let path = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
+        shadowLayer.path = path
+        shadowLayer.fillColor = UIColor.white.cgColor
+        shadowLayer.shadowPath = path
+        shadowLayer.shadowColor = shadowColor.cgColor
+        shadowLayer.shadowOffset = shadowOffset
+        shadowLayer.shadowOpacity = shadowOpacity
+        shadowLayer.shadowRadius = shadowRadius
+
+        layer.addSublayer(shadowLayer)
         
         layoutViews()
+        
     }
     
     func layoutViews() {
-        fatalError("Must override")
+        fatalError("Must override laying out views")
     }
     
     override func draw(_ rect: CGRect) {

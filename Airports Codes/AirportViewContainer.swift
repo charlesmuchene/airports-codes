@@ -10,8 +10,6 @@ import UIKit
 
 class AirportViewContainer: ContainerView {
 
-    var questionsView: UIView!
-    
     var answerButtons = [UIButton]()
     
     private var margin: CGFloat = 16
@@ -34,17 +32,28 @@ class AirportViewContainer: ContainerView {
     }
     
     override func layoutViews() {
-        let questionsViewFrame = CGRect(x: margin, y: margin, width: frame.width - margin * 2, height: frame.height / 2 - margin * 1.5)
-        let answersViewFrame = CGRect(x: margin, y: margin + frame.height / 2, width: frame.width - margin * 2, height: frame.height / 2 - margin * 1.5)
         
-        questionsView = UIView(frame: questionsViewFrame)
-        addSubview(questionsView)
+        let questionsView = UIView()
+        questionsView.layer.cornerRadius = 7
         questionsView.backgroundColor = .brown
         
-        let answerView = UIView(frame: answersViewFrame)
-        addSubview(answerView)
-        answerView.backgroundColor = .green
-    
+        let answerView = UIView()
+        answerView.layer.cornerRadius = 7
+        answerView.backgroundColor = UIColor.orange.withAlphaComponent(0.2)
+        
+        let stackView = UIStackView(arrangedSubviews: [questionsView, answerView])
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        
+        addSubview(stackView)
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[stack]-16-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["stack":stackView]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-16-[stack]-16-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["stack":stackView]))
+        
     }
     
 }

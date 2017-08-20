@@ -61,7 +61,7 @@ class MainViewController: UIViewController {
         setupSegmentedControlView(playStackView)
         
         setupOverlayView()
-
+        
     }
     
     private func setupOverlayView() {
@@ -116,7 +116,23 @@ class MainViewController: UIViewController {
     
     @objc private func segmentChanged(sender: ASegmentedControl) {
         
-        switch(sender.selectedIndex) {
+        if isGameInProgress {
+            
+            showAlert(title: nil, message: "Quit game?", parent: self, presentationStyle: .actionSheet, positiveButton: "Yes", positiveAction: {
+                sender.completeTransition(true)
+                self.changeGame(index: sender.selectedIndex)
+            }, negativeButton: "No", negativeAction: {
+                sender.completeTransition(false)
+            })
+            
+        } else {
+            sender.completeTransition(true)
+            changeGame(index: sender.selectedIndex)
+        }
+    }
+    
+    private func changeGame(index: Int) {
+        switch(index) {
         case 0:
             UIView.animate(withDuration: 0.4, animations: {
                 self.airportView.alpha = 1

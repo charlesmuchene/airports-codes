@@ -16,6 +16,10 @@ class ASegmentedControl: UIControl {
     
     var selectedIndex: Int!
     
+    var previousIndex: Int!
+    
+    private var startPosition: CGFloat?
+    
     init() {
         super.init(frame: CGRect())
         setup()
@@ -33,6 +37,7 @@ class ASegmentedControl: UIControl {
     private func setup() {
         borderWidth = 1
         selectedIndex = 0
+        previousIndex = 0
         borderColor = .gray
         backgroundColor = .clear
         buttonTitles = "Airports|Codes"
@@ -106,19 +111,30 @@ class ASegmentedControl: UIControl {
     
     @objc private func buttonTapped(button: UIButton) {
         for (buttonIndex, butt) in buttons.enumerated() {
-            butt.setTitleColor(buttonTitleColor, for: .normal)
             if butt == button {
                 if selectedIndex != buttonIndex {
+                    previousIndex = selectedIndex
                     selectedIndex = buttonIndex
+                    startPosition = frame.width / CGFloat(buttons.count) * CGFloat(buttonIndex)
                     sendActions(for: .valueChanged)
-                    let startPosition = frame.width / CGFloat(buttons.count) * CGFloat(buttonIndex)
-                    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-                        self.selector.frame.origin.x = startPosition
-                    })
                 }
-                butt.setTitleColor(selectorTextColor, for: .normal)
             }
         }
+    }
+    
+    func completeTransition(_ success: Bool) {
+        
+        if (success) {
+            guard let startPosition = startPosition else { return }
+            buttons[selectedIndex].setTitleColor(selectorTextColor, for: .normal)
+            buttons[previousIndex].setTitleColor(buttonTitleColor, for: .normal)
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                self.selector.frame.origin.x = startPosition
+            })
+        } else {
+            selectedIndex = previousIndex
+        }
+        
     }
     
     override func draw(_ rect: CGRect) {

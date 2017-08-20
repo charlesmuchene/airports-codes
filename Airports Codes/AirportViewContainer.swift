@@ -45,6 +45,15 @@ class AirportViewContainer: ContainerView {
         return label
     }()
     
+    private let questionSubLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.text = "Dev?"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private var answerButton: UIButton {
         let button = UIButton(type: .system)
         button.layer.borderWidth = 1
@@ -97,9 +106,15 @@ class AirportViewContainer: ContainerView {
     
     private func layoutQuestionView() {
         
-        questionView.addSubview(questionLabel)
+        let questionStackView = stackView
+        questionStackView.axis = .vertical
         
-        questionLabel.anchor(questionView.topAnchor, left: questionView.leftAnchor, bottom: questionView.bottomAnchor, right: questionView.rightAnchor, topConstant: 32, leftConstant: 32, bottomConstant: 32, rightConstant: 32, widthConstant: 0, heightConstant: 0)
+        questionStackView.addArrangedSubview(questionLabel)
+        questionStackView.addArrangedSubview(questionSubLabel)
+        
+        questionView.addSubview(questionStackView)
+        
+        questionStackView.anchor(questionView.topAnchor, left: questionView.leftAnchor, bottom: questionView.bottomAnchor, right: questionView.rightAnchor, topConstant: 32, leftConstant: 32, bottomConstant: 32, rightConstant: 32, widthConstant: 0, heightConstant: 0)
         
     }
     

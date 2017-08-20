@@ -36,6 +36,23 @@ class AirportViewContainer: ContainerView {
         return view
     }
     
+    private let questionLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.text = "Sensei Dev works on this app!"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var answerButton: UIButton {
+        let button = UIButton(type: .system)
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 7
+        button.layer.borderColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        return button
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -48,13 +65,13 @@ class AirportViewContainer: ContainerView {
     private func setupView() {
         
         questionView = containerView
-        questionView.backgroundColor = UIColor.gray.withAlphaComponent(0.1)
+        questionView.backgroundColor = UIColor.orange.withAlphaComponent(0.07)
         
         answersView = containerView
-        answersView.backgroundColor = UIColor.gray.withAlphaComponent(0.1)
+        answersView.backgroundColor = UIColor.green.withAlphaComponent(0.07)
 
         (0..<numberOfAnswerButtons).forEach {
-            let button = UIButton(type: .system)
+            let button = answerButton
             button.setTitle("SD: \($0)", for: .normal)
             answerButtons.append(button)
         }
@@ -65,13 +82,8 @@ class AirportViewContainer: ContainerView {
         
         let containerStackView = stackView
         containerStackView.axis = .vertical
-        containerStackView.distribution = .fill
         
-        let borderView = UIView()
-        borderView.backgroundColor = .gray
-        borderView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        
-        [questionView, borderView, answersView].forEach { containerStackView.addArrangedSubview($0) }
+        [questionView, answersView].forEach { containerStackView.addArrangedSubview($0) }
         
         addSubview(containerStackView)
         
@@ -84,6 +96,10 @@ class AirportViewContainer: ContainerView {
     }
     
     private func layoutQuestionView() {
+        
+        questionView.addSubview(questionLabel)
+        
+        questionLabel.anchor(questionView.topAnchor, left: questionView.leftAnchor, bottom: questionView.bottomAnchor, right: questionView.rightAnchor, topConstant: 32, leftConstant: 32, bottomConstant: 32, rightConstant: 32, widthConstant: 0, heightConstant: 0)
         
     }
     

@@ -10,20 +10,37 @@ import UIKit
 
 class MainViewController: UIViewController {
     
-    var segmentedControl: ASegmentedControl!
+    private var segmentedControl: ASegmentedControl!
     
-    var airportView: AirportViewContainer!
+    private var airportView: AirportViewContainer!
     
-    var codesView: CodesViewContainer!
+    private var codesView: CodesViewContainer!
+    
+    private var playButtonItem: UIBarButtonItem!
+    
+    private var isPlaying = false {
+        didSet {
+            togglePlay()
+        }
+    }
+    
+    private var isGameInProgress = true
+    
+    private var overlayView: UIVisualEffectView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Airports Codes"
         view.backgroundColor = .white
-        setup()
+        setupView()
     }
     
-    private func setup() {
+    private func setupView() {
+        
+        playButtonItem = UIBarButtonItem(title: "Play", style: .plain, target: self, action: #selector(self.playButtonClicked))
+        
+        navigationController?.navigationBar.tintColor = .orange
+        navigationItem.rightBarButtonItem = playButtonItem
         
         let timeSwitch = UISwitch()
         timeSwitch.setOn(true, animated: true)
@@ -35,11 +52,30 @@ class MainViewController: UIViewController {
         let playButton = UIButton(type: .system)
         playButton.setTitle("Play", for: .normal)
         let stopButton = UIButton(type: .system)
-        stopButton.setTitle("Stop", for: .normal)
-        let playStackView = UIStackView(arrangedSubviews: [timeSwitch, timeLabel, scoreLabel, playButton, stopButton])
+        stopButton.setTitle("Give up", for: .normal)
+        let playStackView = UIStackView(arrangedSubviews: [timeSwitch, timeLabel, scoreLabel, stopButton])
         playStackView.axis = .horizontal
         playStackView.alignment = .fill
         playStackView.distribution = .fillProportionally
+        
+        setupSegmentedControlView(playStackView)
+        
+        setupOverlayView()
+
+    }
+    
+    private func setupOverlayView() {
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
+        overlayView =  UIVisualEffectView(effect: blurEffect)
+        overlayView.frame = view.bounds
+        let label = UILabel()
+        label.textAlignment = .center
+        label.text = "Game paused"
+        overlayView.contentView.addSubview(label)
+        label.anchor(overlayView.centerYAnchor, left: overlayView.leftAnchor, bottom: nil, right: overlayView.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
+    }
+    
+    private func setupSegmentedControlView(_ playStackView: UIStackView) {
         
         segmentedControl = ASegmentedControl()
         segmentedControl.addTarget(self, action: #selector(segmentChanged(sender:)), for: .valueChanged)
@@ -55,6 +91,10 @@ class MainViewController: UIViewController {
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-margin-[hsv]-margin-|", options: NSLayoutFormatOptions(), metrics: ["margin": margin], views: ["hsv": headerStackView]))
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-navbarHeightWithMargin-[hsv(<=96)]", options: NSLayoutFormatOptions(), metrics: ["navbarHeightWithMargin": navBarHeight + margin], views: ["hsv": headerStackView]))
         
+        setupViewContainers(headerStackView, margin)
+    }
+    
+    private func setupViewContainers(_ headerStackView: HeaderStackView, _ margin: CGFloat) {
         
         airportView = AirportViewContainer()
         view.addSubview(airportView)
@@ -95,4 +135,21 @@ class MainViewController: UIViewController {
         }
     }
     
+    @objc private func playButtonClicked() {
+        isPlaying = !isPlaying
+        playButtonItem.title = isPlaying ? "Pause" : "Play"
+    }
+    
+    private func togglePlay() {
+        
+        if isGameInProgress {
+            if isPlaying {
+                overlayView.removeFromSuperview()
+            }
+            else {
+                view.addSubview(overlayView)
+            }
+        }
+        
+    }
 }

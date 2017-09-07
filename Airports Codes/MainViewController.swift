@@ -67,7 +67,9 @@ class MainViewController: UIViewController {
         label.textAlignment = .center
         label.text = "Game paused"
         overlayView.contentView.addSubview(label)
-        label.anchor(overlayView.centerYAnchor, left: overlayView.leftAnchor, bottom: nil, right: overlayView.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
+        label.anchor(overlayView.centerYAnchor, left: overlayView.leftAnchor, bottom: nil,
+                     right: overlayView.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0,
+                     rightConstant: 0, widthConstant: 0, heightConstant: 0)
     }
     
     private func setupSegmentedControlView(_ playStackView: UIStackView) {
@@ -83,8 +85,13 @@ class MainViewController: UIViewController {
         view.addSubview(headerStackView)
         headerStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-margin-[hsv]-margin-|", options: NSLayoutFormatOptions(), metrics: ["margin": margin], views: ["hsv": headerStackView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-navbarHeightWithMargin-[hsv(<=96)]", options: NSLayoutFormatOptions(), metrics: ["navbarHeightWithMargin": navBarHeight + margin], views: ["hsv": headerStackView]))
+        view.addConstraints(NSLayoutConstraint
+            .constraints(withVisualFormat: "H:|-margin-[hsv]-margin-|", options: NSLayoutFormatOptions(),
+                         metrics: ["margin": margin], views: ["hsv": headerStackView]))
+        view.addConstraints(NSLayoutConstraint
+            .constraints(withVisualFormat: "V:|-navbarHeightWithMargin-[hsv(<=96)]",
+                         options: NSLayoutFormatOptions(), metrics: ["navbarHeightWithMargin": navBarHeight + margin],
+                         views: ["hsv": headerStackView]))
         
         setupViewContainers(headerStackView, margin)
     }
@@ -95,18 +102,28 @@ class MainViewController: UIViewController {
         view.addSubview(airportView)
         airportView.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint(item: airportView, attribute: .top, relatedBy: .equal, toItem: headerStackView, attribute: .bottom, multiplier: 1.0, constant: 16).isActive = true
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-margin-[avc]-margin-|", options: NSLayoutFormatOptions(), metrics: ["margin": margin], views: ["avc": airportView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[avc]-16-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["avc": airportView]))
+        NSLayoutConstraint(item: airportView, attribute: .top, relatedBy: .equal,
+                           toItem: headerStackView, attribute: .bottom, multiplier: 1.0, constant: 16).isActive = true
+        view.addConstraints(NSLayoutConstraint
+            .constraints(withVisualFormat: "H:|-margin-[avc]-margin-|", options: NSLayoutFormatOptions(),
+                         metrics: ["margin": margin], views: ["avc": airportView]))
+        view.addConstraints(NSLayoutConstraint
+            .constraints(withVisualFormat: "V:[avc]-16-|", options: NSLayoutFormatOptions(),
+                         metrics: nil, views: ["avc": airportView]))
         
         codesView = CodesViewContainer()
         codesView.alpha = 0
         view.addSubview(codesView)
         codesView.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint(item: codesView, attribute: .top, relatedBy: .equal, toItem: headerStackView, attribute: .bottom, multiplier: 1.0, constant: 16).isActive = true
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-margin-[cvc]-margin-|", options: NSLayoutFormatOptions(), metrics: ["margin": margin], views: ["cvc": codesView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[cvc]-16-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["cvc": codesView]))
+        NSLayoutConstraint(item: codesView, attribute: .top, relatedBy: .equal,
+                           toItem: headerStackView, attribute: .bottom, multiplier: 1.0, constant: 16).isActive = true
+        view.addConstraints(NSLayoutConstraint
+            .constraints(withVisualFormat: "H:|-margin-[cvc]-margin-|", options: NSLayoutFormatOptions(),
+                         metrics: ["margin": margin], views: ["cvc": codesView]))
+        view.addConstraints(NSLayoutConstraint
+            .constraints(withVisualFormat: "V:[cvc]-16-|", options: NSLayoutFormatOptions(),
+                         metrics: nil, views: ["cvc": codesView]))
         
         gamePlayDelegate = airportView
     }
@@ -114,7 +131,8 @@ class MainViewController: UIViewController {
     @objc private func segmentChanged(sender: ASegmentedControl) {
         
         if gamePlayDelegate.isGameInProgress {
-            showAlert(title: nil, message: "Quit game?", parent: self, presentationStyle: .actionSheet, positiveButton: "Yes", positiveAction: {
+            showAlert(title: nil, message: "Quit game?", parent: self,
+                      presentationStyle: .actionSheet, positiveButton: "Yes", positiveAction: {
                 sender.completeTransition(true)
                 self.changeGame(index: sender.selectedIndex)
             }, negativeButton: "No", negativeAction: {

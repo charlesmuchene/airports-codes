@@ -18,13 +18,7 @@ class MainViewController: UIViewController {
     
     private var playButtonItem: UIBarButtonItem!
     
-    private var isPlaying = false {
-        didSet {
-            togglePlay()
-        }
-    }
-    
-    private var isGameInProgress = true
+    private var gamePlayDelegate: GamePlayDelegate?
     
     private var overlayView: UIVisualEffectView!
     
@@ -43,16 +37,16 @@ class MainViewController: UIViewController {
         navigationItem.rightBarButtonItem = playButtonItem
         
         let timeSwitch = UISwitch()
-        timeSwitch.setOn(true, animated: true)
+        timeSwitch.addTarget(self, action: #selector(self.toggleSwitch(sender:)), for: .valueChanged)
         let timeLabel = UILabel()
-        timeLabel.text = "07:32"
+        timeLabel.text = "--:--"
         let scoreLabel = UILabel()
         scoreLabel.textColor = .darkGray
-        scoreLabel.text = "13/20"
-        let playButton = UIButton(type: .system)
-        playButton.setTitle("Play", for: .normal)
+        scoreLabel.text = "1/10"
         let stopButton = UIButton(type: .system)
         stopButton.setTitle("Give up", for: .normal)
+        stopButton.addTarget(self, action: #selector(self.stopGame), for: .touchUpInside)
+        
         let playStackView = UIStackView(arrangedSubviews: [timeSwitch, timeLabel, scoreLabel, stopButton])
         playStackView.axis = .horizontal
         playStackView.alignment = .fill
@@ -112,11 +106,13 @@ class MainViewController: UIViewController {
         NSLayoutConstraint(item: codesView, attribute: .top, relatedBy: .equal, toItem: headerStackView, attribute: .bottom, multiplier: 1.0, constant: 16).isActive = true
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-margin-[cvc]-margin-|", options: NSLayoutFormatOptions(), metrics: ["margin": margin], views: ["cvc": codesView]))
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[cvc]-16-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["cvc": codesView]))
+        
+        gamePlayDelegate = airportView
     }
     
     @objc private func segmentChanged(sender: ASegmentedControl) {
         
-        if isGameInProgress {
+        if (gamePlayDelegate?.isGameInProgress)! {
             
             showAlert(title: nil, message: "Quit game?", parent: self, presentationStyle: .actionSheet, positiveButton: "Yes", positiveAction: {
                 sender.completeTransition(true)
@@ -137,14 +133,19 @@ class MainViewController: UIViewController {
             UIView.animate(withDuration: 0.4, animations: {
                 self.airportView.alpha = 1
                 self.codesView.alpha = 0
-                
-            })
+            }) {
+                _ in
+                self.gamePlayDelegate = self.airportView
+            }
             
         case 1:
             UIView.animate(withDuration: 0.3, animations: {
                 self.airportView.alpha = 0
                 self.codesView.alpha = 1
-            })
+            }) {
+                _ in
+                self.gamePlayDelegate = self.codesView
+            }
             
         default:
             break
@@ -152,20 +153,26 @@ class MainViewController: UIViewController {
     }
     
     @objc private func playButtonClicked() {
-        isPlaying = !isPlaying
-        playButtonItem.title = isPlaying ? "Pause" : "Play"
+        gamePlayDelegate?.toggleGamePlay()
+        playButtonItem.title = (gamePlayDelegate?.isGameInProgress)! ? "Pause" : "Play"
     }
     
     private func togglePlay() {
-        
-        if isGameInProgress {
-            if isPlaying {
-                overlayView.removeFromSuperview()
-            }
-            else {
-                view.addSubview(overlayView)
-            }
+        if (gamePlayDelegate?.isGameInProgress)! {
+            overlayView.removeFromSuperview()
+        }
+        else {
+            view.addSubview(overlayView)
         }
         
     }
+
+    @objc private func stopGame() {
+        gamePlayDelegate?.endGame()
+    }
+    
+    @objc private func toggleSwitch(sender: UISwitch) {
+        gamePlayDelegate?.toggleGameAsTimed(timed: sender.isOn)
+    }
+    
 }

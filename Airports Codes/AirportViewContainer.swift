@@ -17,6 +17,8 @@ class AirportViewContainer: ContainerView {
     
     private var margin: CGFloat = 16
     
+    fileprivate let gamePlay = GamePlay()
+    
     private let numberOfAnswerButtons = 4
     private let numberOfAnswerColumns = 2
     
@@ -141,4 +143,36 @@ class AirportViewContainer: ContainerView {
         
     }
     
+}
+
+extension AirportViewContainer: GamePlayDelegate {
+    var isGameInProgress: Bool {
+        return gamePlay.isGameInProgress
+    }
+    
+    func pauseGame() {
+        // TODO Update pause
+        print("Pause Game")
+    }
+    
+    func playGame() {
+        print("Play Game")
+    }
+    
+    func endGame() {
+        
+    }
+    
+    func updateTimer(time: String) {
+        
+    }
+    
+    func toggleGameAsTimed(timed: Bool) {
+        
+    }
+
+    func toggleGamePlay() {
+        gamePlay.toggleGamePlay()
+    }
+
 }

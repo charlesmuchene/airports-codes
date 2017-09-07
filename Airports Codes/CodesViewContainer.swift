@@ -57,10 +57,6 @@ extension CodesViewContainer: GamePlayDelegate {
         
     }
     
-    func updateTimer(time: String) {
-        
-    }
-    
     func toggleGame(timed: Bool) {
         
     }

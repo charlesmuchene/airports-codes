@@ -98,7 +98,9 @@ class AirportViewContainer: ContainerView {
         
         addSubview(containerStackView)
         
-        containerStackView.anchor(topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, topConstant: 16, leftConstant: 16, bottomConstant: 16, rightConstant: 16, widthConstant: 0, heightConstant: 0)
+        containerStackView.anchor(topAnchor, left: leftAnchor, bottom: bottomAnchor,
+                                  right: rightAnchor, topConstant: 16, leftConstant: 16,
+                                  bottomConstant: 16, rightConstant: 16, widthConstant: 0, heightConstant: 0)
         
         layoutQuestionView()
         
@@ -116,7 +118,10 @@ class AirportViewContainer: ContainerView {
         
         questionView.addSubview(questionStackView)
         
-        questionStackView.anchor(questionView.topAnchor, left: questionView.leftAnchor, bottom: questionView.bottomAnchor, right: questionView.rightAnchor, topConstant: 32, leftConstant: 32, bottomConstant: 32, rightConstant: 32, widthConstant: 0, heightConstant: 0)
+        questionStackView.anchor(questionView.topAnchor, left: questionView.leftAnchor,
+                                 bottom: questionView.bottomAnchor, right: questionView.rightAnchor,
+                                 topConstant: 32, leftConstant: 32, bottomConstant: 32, rightConstant: 32,
+                                 widthConstant: 0, heightConstant: 0)
         
     }
     
@@ -139,7 +144,9 @@ class AirportViewContainer: ContainerView {
         
         answersView.addSubview(answersStackView)
         
-        answersStackView.anchor(answersView.topAnchor, left: answersView.leftAnchor, bottom: answersView.bottomAnchor, right: answersView.rightAnchor, topConstant: 16, leftConstant: 16, bottomConstant: 16, rightConstant: 16, widthConstant: 0, heightConstant: 0)
+        answersStackView.anchor(answersView.topAnchor, left: answersView.leftAnchor, bottom: answersView.bottomAnchor,
+                                right: answersView.rightAnchor, topConstant: 16, leftConstant: 16, bottomConstant: 16,
+                                rightConstant: 16, widthConstant: 0, heightConstant: 0)
         
     }
     
@@ -160,11 +167,7 @@ extension AirportViewContainer: GamePlayDelegate {
     }
     
     func endGame() {
-        
-    }
-    
-    func updateTimer(time: String) {
-        
+        gamePlay.gameOver()
     }
     
     func toggleGame(timed: Bool) {

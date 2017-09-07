@@ -18,7 +18,7 @@ class GamePlay {
     
     var maxGameTime = 5.0
     
-    var gamePlayDelegate: GamePlayDelegate?
+    private weak var timerUpdateDelegate: TimerUpdateDelegate?
     
     var isGameInProgress: Bool {
         return gameInProgress
@@ -29,19 +29,16 @@ class GamePlay {
         if timedGame {
             startTimer()
         }
-        gamePlayDelegate?.playGame()
     }
     
     func pauseGame() {
         gameInProgress = false
         timer?.invalidate()
-        gamePlayDelegate?.pauseGame()
     }
     
     func gameOver() {
         pauseGame()
         currentGameTime = 0.0
-        gamePlayDelegate?.endGame()
     }
     
     func toggleGameAsTimed(timed: Bool) {
@@ -59,7 +56,7 @@ class GamePlay {
     }
     
     private func updateTimer() {
-        gamePlayDelegate?.updateTimer(time: "00:\(Int(maxGameTime - currentGameTime))")
+        timerUpdateDelegate?.updateTimer(time: "00:\(Int(maxGameTime - currentGameTime))")
     }
 
     func toggleGamePlay() {
@@ -70,4 +67,8 @@ class GamePlay {
         }
     }
     
+}
+
+protocol TimerUpdateDelegate: class {
+    func updateTimer(time: String)
 }

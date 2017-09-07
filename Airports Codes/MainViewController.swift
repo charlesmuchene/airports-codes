@@ -22,6 +22,8 @@ class MainViewController: UIViewController {
     
     private var overlayView: UIVisualEffectView!
     
+    private var endGameButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Airports Codes"
@@ -44,11 +46,12 @@ class MainViewController: UIViewController {
         let scoreLabel = UILabel()
         scoreLabel.textColor = .darkGray
         scoreLabel.text = "1/10"
-        let stopButton = UIButton(type: .system)
-        stopButton.setTitle("Give up", for: .normal)
-        stopButton.addTarget(self, action: #selector(self.stopGame), for: .touchUpInside)
+        endGameButton = UIButton(type: .system)
+        endGameButton.setTitle("Give up", for: .normal)
+        endGameButton.isEnabled = false
+        endGameButton.addTarget(self, action: #selector(self.stopGame), for: .touchUpInside)
         
-        let playStackView = UIStackView(arrangedSubviews: [timeSwitch, timeLabel, scoreLabel, stopButton])
+        let playStackView = UIStackView(arrangedSubviews: [timeSwitch, timeLabel, scoreLabel, endGameButton])
         playStackView.axis = .horizontal
         playStackView.alignment = .fill
         playStackView.distribution = .fillProportionally
@@ -132,10 +135,10 @@ class MainViewController: UIViewController {
         
         if gamePlayDelegate.isGameInProgress {
             showAlert(title: nil, message: "Quit game?", parent: self,
-                      presentationStyle: .actionSheet, positiveButton: "Yes", positiveAction: {
-                sender.completeTransition(true)
-                self.changeGame(index: sender.selectedIndex)
-            }, negativeButton: "No", negativeAction: {
+                      presentationStyle: .actionSheet, positiveButtonTitle: "Yes", positiveButtonAction: {
+                        sender.completeTransition(true)
+                        self.changeGame(index: sender.selectedIndex)
+            }, negativeButtonTitle: "No", negativeButtonAction: {
                 sender.completeTransition(false)
             })
         } else {
@@ -179,16 +182,22 @@ class MainViewController: UIViewController {
         if gamePlayDelegate.isGameInProgress {
             overlayView.removeFromSuperview()
             playButtonTitle = "Pause"
+            endGameButton.isEnabled = true
         }
         else {
             view.addSubview(overlayView)
             playButtonTitle = "Play"
+            endGameButton.isEnabled = false
         }
         playButtonItem.title = playButtonTitle
     }
-
+    
     @objc private func stopGame() {
-        gamePlayDelegate.endGame()
+        showAlert(title: nil, message: "Do you want to Quit the current game?", parent: self,
+                  presentationStyle: .alert, positiveButtonTitle: "Yes", positiveButtonAction: {
+                    self.gamePlayDelegate.endGame()
+        }, negativeButtonTitle: "No")
+        
     }
     
     @objc private func toggleSwitch(sender: UISwitch) {

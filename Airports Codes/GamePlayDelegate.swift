@@ -11,7 +11,6 @@ protocol GamePlayDelegate {
     func pauseGame()
     func playGame()
     func endGame()
-    func updateTimer(time: String)
     func toggleGame(timed: Bool)
     func toggleGamePlay()
 }

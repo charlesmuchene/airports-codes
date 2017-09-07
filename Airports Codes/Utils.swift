@@ -8,18 +8,19 @@
 
 import UIKit
 
-func showAlert(title: String?, message: String, parent: UIViewController, presentationStyle: UIAlertControllerStyle = .alert, positiveButton: String? = "Okay",
-               positiveAction: (() -> Void)? = nil, negativeButton: String? = nil, negativeAction: (() -> Void)? = nil) {
+func showAlert(title: String?, message: String, parent: UIViewController,
+               presentationStyle: UIAlertControllerStyle = .alert, positiveButtonTitle: String? = "Okay",
+               positiveButtonAction: (() -> Void)? = nil, negativeButtonTitle: String? = nil, negativeButtonAction: (() -> Void)? = nil) {
     let alertController = UIAlertController(title: title, message: message, preferredStyle: presentationStyle)
-    alertController.addAction(UIAlertAction(title: positiveButton, style: .default, handler: { _ in
-        if let positiveAction = positiveAction {
-            positiveAction()
+    alertController.addAction(UIAlertAction(title: positiveButtonTitle, style: .default, handler: { _ in
+        if let positiveButtonAction = positiveButtonAction {
+            positiveButtonAction()
         }
     }))
-    if let negativeButtonText = negativeButton {
-        alertController.addAction(UIAlertAction(title: negativeButtonText, style: .cancel, handler: { (action) in
-            if let negativeAction = negativeAction {
-                negativeAction()
+    if let negativeButtonTitle = negativeButtonTitle {
+        alertController.addAction(UIAlertAction(title: negativeButtonTitle, style: .cancel, handler: { (action) in
+            if let negativeButtonAction = negativeButtonAction {
+                negativeButtonAction()
             }
         }))
     }

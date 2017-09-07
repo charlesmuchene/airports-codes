@@ -18,7 +18,7 @@ class MainViewController: UIViewController {
     
     private var playButtonItem: UIBarButtonItem!
     
-    private var gamePlayDelegate: GamePlayDelegate?
+    private var gamePlayDelegate: GamePlayDelegate!
     
     private var overlayView: UIVisualEffectView!
     
@@ -27,6 +27,7 @@ class MainViewController: UIViewController {
         title = "Airports Codes"
         view.backgroundColor = .white
         setupView()
+        
     }
     
     private func setupView() {
@@ -59,7 +60,7 @@ class MainViewController: UIViewController {
     }
     
     private func setupOverlayView() {
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.regular)
         overlayView =  UIVisualEffectView(effect: blurEffect)
         overlayView.frame = view.bounds
         let label = UILabel()
@@ -112,15 +113,13 @@ class MainViewController: UIViewController {
     
     @objc private func segmentChanged(sender: ASegmentedControl) {
         
-        if (gamePlayDelegate?.isGameInProgress)! {
-            
+        if gamePlayDelegate.isGameInProgress {
             showAlert(title: nil, message: "Quit game?", parent: self, presentationStyle: .actionSheet, positiveButton: "Yes", positiveAction: {
                 sender.completeTransition(true)
                 self.changeGame(index: sender.selectedIndex)
             }, negativeButton: "No", negativeAction: {
                 sender.completeTransition(false)
             })
-            
         } else {
             sender.completeTransition(true)
             changeGame(index: sender.selectedIndex)
@@ -153,26 +152,29 @@ class MainViewController: UIViewController {
     }
     
     @objc private func playButtonClicked() {
-        gamePlayDelegate?.toggleGamePlay()
-        playButtonItem.title = (gamePlayDelegate?.isGameInProgress)! ? "Pause" : "Play"
+        gamePlayDelegate.toggleGamePlay()
+        togglePlay()
     }
     
     private func togglePlay() {
-        if (gamePlayDelegate?.isGameInProgress)! {
+        var playButtonTitle = ""
+        if gamePlayDelegate.isGameInProgress {
             overlayView.removeFromSuperview()
+            playButtonTitle = "Pause"
         }
         else {
             view.addSubview(overlayView)
+            playButtonTitle = "Play"
         }
-        
+        playButtonItem.title = playButtonTitle
     }
 
     @objc private func stopGame() {
-        gamePlayDelegate?.endGame()
+        gamePlayDelegate.endGame()
     }
     
     @objc private func toggleSwitch(sender: UISwitch) {
-        gamePlayDelegate?.toggleGameAsTimed(timed: sender.isOn)
+        gamePlayDelegate.toggleGame(timed: sender.isOn)
     }
     
 }

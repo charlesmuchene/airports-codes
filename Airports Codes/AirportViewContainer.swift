@@ -167,12 +167,13 @@ extension AirportViewContainer: GamePlayDelegate {
         
     }
     
-    func toggleGameAsTimed(timed: Bool) {
+    func toggleGame(timed: Bool) {
         
     }
 
     func toggleGamePlay() {
         gamePlay.toggleGamePlay()
+        
     }
 
 }

@@ -27,6 +27,13 @@ class CodesViewContainer: ContainerView {
     
     override func layoutViews() {
         
+        let label = UILabel()
+        label.text = "Coming soon!"
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(label)
+        label.anchor(topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
+        
     }
 
 }
@@ -53,12 +60,12 @@ extension CodesViewContainer: GamePlayDelegate {
         
     }
     
-    func toggleGameAsTimed(timed: Bool) {
+    func toggleGame(timed: Bool) {
         
     }
     
     func toggleGamePlay() {
-        
+        gamePlay.toggleGamePlay()
     }
     
 }
